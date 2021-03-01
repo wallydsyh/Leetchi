@@ -7,22 +7,18 @@
 
     <fragment
         android:id="@+id/FirstFragment"
-        android:name="com.example.leetchi_wallyd.FirstFragment"
+        android:name="com.example.leetchi_wallyd.ui.FirstFragment"
         android:label="@string/first_fragment_label"
         tools:layout="@layout/fragment_first">
 
         <action
-            android:id="@+id/action_FirstFragment_to_SecondFragment"
-            app:destination="@id/SecondFragment" />
+            android:id="@+id/action_FirstFragment_to_fullscreenFragment"
+            app:destination="@id/fullscreenFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/SecondFragment"
-        android:name="com.example.leetchi_wallyd.SecondFragment"
-        android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_second">
 
-        <action
-            android:id="@+id/action_SecondFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
-    </fragment>
+    <fragment
+        android:id="@+id/fullscreenFragment"
+        android:name="com.example.leetchi_wallyd.ui.FullscreenFragment"
+        android:label="fragment_fullscreen"
+        tools:layout="@layout/fragment_fullscreen" />
 </navigation>
