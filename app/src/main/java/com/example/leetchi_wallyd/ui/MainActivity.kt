@@ -11,6 +11,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import com.example.leetchi_wallyd.R
 import com.example.leetchi_wallyd.api.ApiHelper
 import com.example.leetchi_wallyd.api.ApiServiceImpl
+import com.example.leetchi_wallyd.connectivity.ConnectivityLiveData
 import com.example.leetchi_wallyd.databinding.ActivityMainBinding
 import com.example.leetchi_wallyd.viewModel.GiphyViewModel
 import com.example.leetchi_wallyd.viewModel.ViewModelFactory
@@ -24,7 +25,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -35,7 +35,6 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
 
         setUpViewModel()
-        getAllGif()
     }
 
     private fun setUpViewModel() {
@@ -44,7 +43,7 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
-    private fun getAllGif() {
+     fun getAllGif() {
         lifecycleScope.launch {
             giphyViewModel.getGifs()
         }

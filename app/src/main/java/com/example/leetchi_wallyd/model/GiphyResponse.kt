@@ -1,5 +1,5 @@
 package com.example.leetchi_wallyd.model
 
-class GiphyResponse(
+open class GiphyResponse(
    var  data : List<Gif>
 )

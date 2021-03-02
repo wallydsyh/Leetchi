@@ -2,7 +2,7 @@
 buildscript {
     ext.kotlin_version = "1.4.21"
     ext.paging_version = "3.0.0-alpha13"
-    ext.retrofit_version = "2.7.2"
+    ext.retrofit_version = "2.9.0"
     repositories {
         google()
         jcenter()

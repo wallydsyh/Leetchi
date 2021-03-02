@@ -8,3 +8,8 @@ class OriginalImage(
     var url: String,
     var webp: String
 ): Parcelable
+
+@Parcelize
+class Preview(
+    var url: String,
+): Parcelable

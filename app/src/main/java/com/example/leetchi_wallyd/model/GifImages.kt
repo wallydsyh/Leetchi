@@ -5,8 +5,8 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 class GifImages(
-    var downsized: OriginalImage,
-    var original: OriginalImage
+    var original: OriginalImage,
+    var preview_gif: Preview
 ): Parcelable
 
 

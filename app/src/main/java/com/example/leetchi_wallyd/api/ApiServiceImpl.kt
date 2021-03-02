@@ -3,7 +3,7 @@ package com.example.leetchi_wallyd.api
 import com.example.leetchi_wallyd.model.GiphyResponse
 
 
-class ApiServiceImpl(
+open class ApiServiceImpl(
     private val apiService: ApiService = ApiClient().getClient()
 ) : ApiService {
 

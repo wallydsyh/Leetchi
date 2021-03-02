@@ -5,7 +5,7 @@ import com.example.leetchi_wallyd.model.GiphyResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class GiphyRepository(private val apiHelper: ApiHelper) {
+open class GiphyRepository(private val apiHelper: ApiHelper) {
 
     suspend fun getGifs(): GiphyResponse {
         return withContext(Dispatchers.IO) {
@@ -18,5 +18,4 @@ class GiphyRepository(private val apiHelper: ApiHelper) {
             apiHelper.searchGif(query)
         }
     }
-
 }

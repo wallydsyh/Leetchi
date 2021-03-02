@@ -19,8 +19,8 @@ class GiphyAdapter :
     class GiphyViewHolder(private var binding: GifItemBinding, onGifClick: ((Gif) -> Unit)?) :
         RecyclerView.ViewHolder(binding.root) {
         private val context: Context = binding.root.context
-       private val imageLoader = binding.imageView.context.imageLoader
-        var gif: Gif? = null
+        private val imageLoader = binding.imageView.context.imageLoader
+        private var gif: Gif? = null
 
         init {
             binding.root.setOnClickListener {
@@ -31,11 +31,12 @@ class GiphyAdapter :
         fun bindData(gif: Gif) {
             this.gif = gif
             val request = ImageRequest.Builder(context)
-                .data(gif.images.original.webp)
+                .data(gif)
                 .target(binding.imageView)
                 .build()
             imageLoader.enqueue(request)
         }
+
     }
 
     override fun onCreateViewHolder(
@@ -54,4 +55,5 @@ class GiphyAdapter :
     override fun getItemViewType(position: Int): Int {
         return position
     }
+
 }

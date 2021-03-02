@@ -11,6 +11,7 @@ import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import coil.imageLoader
+import coil.load
 import coil.request.ImageRequest
 import com.example.leetchi_wallyd.databinding.FragmentFullscreenBinding
 import com.example.leetchi_wallyd.model.Gif
@@ -75,6 +76,7 @@ class FullscreenFragment : Fragment() {
         gif = arguments?.getParcelable(Constant.GIF)
 
     }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -88,13 +90,7 @@ class FullscreenFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val imageLoader = binding.imageview.context?.imageLoader
-        val request = ImageRequest.Builder(binding.root.context)
-            .data(gif?.images?.original?.webp)
-            .target(binding.imageview)
-            .build()
-        imageLoader?.enqueue(request)
-
+        displayFullGif()
         visible = true
 
         imageview = binding.imageview
@@ -105,6 +101,17 @@ class FullscreenFragment : Fragment() {
         // operations to prevent the jarring behavior of controls going away
         // while interacting with the UI.
         dummyButton?.setOnTouchListener(delayHideTouchListener)
+    }
+
+    private fun displayFullGif() {
+        val imageLoader = binding.imageview.context?.imageLoader
+        val request = context?.let {
+            ImageRequest.Builder(it)
+                .data(gif?.images?.original?.url)
+                .target(binding.imageview)
+                .build()
+        }
+        request?.let { imageLoader?.enqueue(it) }
     }
 
     override fun onResume() {

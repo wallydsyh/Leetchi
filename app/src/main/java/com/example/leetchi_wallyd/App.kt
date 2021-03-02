@@ -7,7 +7,9 @@ import coil.ImageLoaderFactory
 import coil.decode.GifDecoder
 import coil.decode.ImageDecoderDecoder
 import coil.request.CachePolicy
+import coil.request.ImageRequest
 import coil.util.CoilUtils
+import com.example.leetchi_wallyd.model.GifMapper
 import okhttp3.OkHttpClient
 
 class App : Application(), ImageLoaderFactory {
@@ -26,7 +28,22 @@ class App : Application(), ImageLoaderFactory {
                 } else {
                     add(GifDecoder())
                 }
+                    .add(GifMapper())
             }
             .build()
+    }
+
+
+
+
+    companion object {
+        @get:Synchronized
+        lateinit var application: App
+            private set
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+        application = this
     }
 }
