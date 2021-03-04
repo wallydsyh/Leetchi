@@ -19,10 +19,11 @@ import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.Mockito.*
 import org.mockito.junit.MockitoJUnitRunner
+import java.lang.RuntimeException
 
 
 @ExperimentalCoroutinesApi
-@RunWith(MockitoJUnitRunner::class)
+@RunWith(MockitoJUnitRunner.Silent::class)
 class ViewModelTest {
 
     @get:Rule
@@ -41,6 +42,9 @@ class ViewModelTest {
     private lateinit var listGif: ArrayList<Gif>
 
     @Mock
+    private lateinit var gif: Gif
+
+    @Mock
     private lateinit var apiUsersObserver: Observer<Resource<GiphyResponse>>
 
     private lateinit var listGiphyResponse: GiphyResponse
@@ -48,8 +52,9 @@ class ViewModelTest {
     @Before
     fun setUp() {
         apiService = mock(ApiService::class.java)
+        gif = mock(Gif::class.java)
         giphyViewModel = spy(GiphyViewModel(GiphyRepository(ApiHelper(apiService))))
-        listGif.add(Gif("1", "title", GifImages(OriginalImage("", ""), Preview(""))))
+        listGif = spy(ArrayList())
         listGiphyResponse = GiphyResponse(listGif)
     }
 
@@ -71,20 +76,38 @@ class ViewModelTest {
 
     @Test
     fun givenServerResponse200_whenSearch_shouldReturnSuccess() {
-        val  query = "hello"
+        val query = "hello"
         testCoroutineRule.runBlockingTest {
             doReturn(emptyList<Gif>())
                 .`when`(apiService)
-                .searchGif(Constant.API_KEY, query,Constant.LIMIT)
+                .searchGif(Constant.API_KEY, query, Constant.LIMIT)
             giphyViewModel.searchedGifs.observeForever(apiUsersObserver)
             (apiUsersObserver).onChanged(Resource.Success(listGiphyResponse))
             verify(apiUsersObserver).onChanged(Resource.Success(listGiphyResponse))
             giphyViewModel.searchedGifs.removeObserver(apiUsersObserver)
 
-            apiService.searchGif(Constant.API_KEY,query,Constant.LIMIT)
-            verify(apiService).searchGif(Constant.API_KEY,query, Constant.LIMIT)
+            apiService.searchGif(Constant.API_KEY, query, Constant.LIMIT)
+            verify(apiService).searchGif(Constant.API_KEY, query, Constant.LIMIT)
         }
     }
+
+
+    @Test
+    fun givenServerResponse400_whenFetch_shouldReturnERROR() {
+        val errorMessage = "Error Message For You"
+        val exception = RuntimeException(errorMessage)
+        testCoroutineRule.runBlockingTest {
+            doThrow(exception)
+                .`when`(apiService)
+                .getGifs(Constant.API_KEY, Constant.LIMIT)
+            giphyViewModel.allGifs.observeForever(apiUsersObserver)
+            (apiUsersObserver).onChanged(Resource.Error(exception))
+            verify(apiUsersObserver).onChanged(Resource.Error(exception))
+            giphyViewModel.allGifs.removeObserver(apiUsersObserver)
+
+        }
+    }
+
 
     @After
     fun tearDown() {

@@ -4,7 +4,7 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-class Gif(
+open class Gif(
     var id: String,
     var title: String,
     var images: GifImages
