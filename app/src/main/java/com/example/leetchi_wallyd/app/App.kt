@@ -1,4 +1,4 @@
-package com.example.leetchi_wallyd
+package com.example.leetchi_wallyd.app
 
 import android.app.Application
 import android.os.Build
@@ -7,9 +7,9 @@ import coil.ImageLoaderFactory
 import coil.decode.GifDecoder
 import coil.decode.ImageDecoderDecoder
 import coil.request.CachePolicy
-import coil.request.ImageRequest
 import coil.util.CoilUtils
-import com.example.leetchi_wallyd.model.GifMapper
+import com.example.leetchi_wallyd.R
+import com.example.leetchi_wallyd.mapper.GifMapper
 import okhttp3.OkHttpClient
 
 class App : Application(), ImageLoaderFactory {
@@ -17,6 +17,7 @@ class App : Application(), ImageLoaderFactory {
     override fun newImageLoader(): ImageLoader {
         return ImageLoader.Builder(applicationContext)
             .memoryCachePolicy(CachePolicy.ENABLED)
+            .placeholder(R.drawable.placeholder)
             .okHttpClient {
                 OkHttpClient.Builder()
                     .cache(CoilUtils.createDefaultCache(applicationContext))

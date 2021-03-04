@@ -10,12 +10,14 @@ import android.widget.Button
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import coil.imageLoader
-import coil.load
 import coil.request.ImageRequest
 import com.example.leetchi_wallyd.databinding.FragmentFullscreenBinding
 import com.example.leetchi_wallyd.model.Gif
-import com.example.leetchi_wallyd.util.Constant
+import com.example.leetchi_wallyd.model.GifLoadingState
+import com.example.leetchi_wallyd.utilities.Constant
+import com.example.leetchi_wallyd.viewModel.GiphyViewModel
 
 /**
  * An example full-screen fragment that shows and hides the system UI (i.e.
@@ -46,7 +48,9 @@ class FullscreenFragment : Fragment() {
     }
     private var visible: Boolean = false
     private val hideRunnable = Runnable { hide() }
-    var gif: Gif? = null
+    private var gif: Gif? = null
+    private val giphyViewModel: GiphyViewModel by activityViewModels()
+    private lateinit var mainActivity: MainActivity
 
 
     /**
@@ -74,7 +78,7 @@ class FullscreenFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         gif = arguments?.getParcelable(Constant.GIF)
-
+        mainActivity = activity as MainActivity
     }
 
     override fun onCreateView(
@@ -84,12 +88,21 @@ class FullscreenFragment : Fragment() {
     ): View? {
 
         _binding = FragmentFullscreenBinding.inflate(inflater, container, false)
-        return binding.root
+        giphyViewModel.gifLoadingStateLiveData.postValue(GifLoadingState.LOADING)
 
+        return binding.root
     }
+
+    private fun setupObserver() {
+        giphyViewModel.gifLoadingStateLiveData.observe(viewLifecycleOwner, {
+            mainActivity.onMovieLoadingStateChanged(binding.loadingIndicator, it)
+        })
+    }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupObserver()
         displayFullGif()
         visible = true
 
@@ -111,7 +124,11 @@ class FullscreenFragment : Fragment() {
                 .target(binding.imageview)
                 .build()
         }
-        request?.let { imageLoader?.enqueue(it) }
+        request?.let {
+           imageLoader?.enqueue(it)
+        }
+        giphyViewModel.gifLoadingStateLiveData.postValue(GifLoadingState.LOADED)
+
     }
 
     override fun onResume() {

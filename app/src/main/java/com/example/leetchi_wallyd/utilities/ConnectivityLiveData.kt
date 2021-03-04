@@ -1,4 +1,4 @@
-package com.example.leetchi_wallyd.connectivity
+package com.example.leetchi_wallyd.utilities
 
 import android.app.Application
 import android.content.Context

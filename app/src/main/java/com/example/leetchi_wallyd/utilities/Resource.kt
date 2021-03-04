@@ -1,4 +1,4 @@
-package com.example.leetchi_wallyd.util
+package com.example.leetchi_wallyd.utilities
 
 import java.lang.Exception
 

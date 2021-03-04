@@ -1,4 +1,4 @@
-package com.example.leetchi_wallyd.util
+package com.example.leetchi_wallyd.utilities
 
 import androidx.recyclerview.widget.DiffUtil
 import com.example.leetchi_wallyd.model.Gif

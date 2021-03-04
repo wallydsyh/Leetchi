@@ -8,7 +8,7 @@ import coil.imageLoader
 import coil.request.ImageRequest
 import com.example.leetchi_wallyd.databinding.GifItemBinding
 import com.example.leetchi_wallyd.model.Gif
-import com.example.leetchi_wallyd.util.MyDiffUtil
+import com.example.leetchi_wallyd.utilities.MyDiffUtil
 
 class GiphyAdapter :
     androidx.recyclerview.widget.ListAdapter<Gif, GiphyAdapter.GiphyViewHolder>(MyDiffUtil()) {

@@ -1,6 +1,6 @@
 package com.example.leetchi_wallyd.api
 
-import com.example.leetchi_wallyd.util.Constant.BASE_URL
+import com.example.leetchi_wallyd.utilities.Constant.BASE_URL
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

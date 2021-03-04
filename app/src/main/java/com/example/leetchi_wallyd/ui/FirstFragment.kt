@@ -13,16 +13,14 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
-import com.example.leetchi_wallyd.App.Companion.application
+import com.example.leetchi_wallyd.app.App.Companion.application
 import com.example.leetchi_wallyd.R
 import com.example.leetchi_wallyd.adapter.GiphyAdapter
-import com.example.leetchi_wallyd.connectivity.ConnectivityLiveData
+import com.example.leetchi_wallyd.utilities.ConnectivityLiveData
 import com.example.leetchi_wallyd.databinding.FragmentFirstBinding
 import com.example.leetchi_wallyd.model.Gif
-import com.example.leetchi_wallyd.model.GifLoadingState
-import com.example.leetchi_wallyd.model.GifLoadingState.*
-import com.example.leetchi_wallyd.util.Constant
-import com.example.leetchi_wallyd.util.Resource
+import com.example.leetchi_wallyd.utilities.Constant
+import com.example.leetchi_wallyd.utilities.Resource
 import com.example.leetchi_wallyd.viewModel.GiphyViewModel
 import kotlinx.coroutines.launch
 
@@ -53,7 +51,6 @@ class FirstFragment : Fragment() {
                         if (connectivityLiveData.value == true) {
                             giphyViewModel.getSearchedGifs(newText.toString())
                         }
-
                     }
                 }
             }
@@ -110,7 +107,7 @@ class FirstFragment : Fragment() {
                     gifList.addAll(it.data.data)
                     giphyAdapter.submitList(it.data.data)
                 }
-                is Resource.Error -> Toast.makeText(context, "Error has occured", Toast.LENGTH_LONG)
+                is Resource.Error -> Toast.makeText(context, getString(R.string.error), Toast.LENGTH_LONG)
                     .show()
             }
 
@@ -119,13 +116,13 @@ class FirstFragment : Fragment() {
         giphyViewModel.searchedGifs.observe(viewLifecycleOwner, {
             when (it) {
                 is Resource.Success -> giphyAdapter.submitList(it.data.data)
-                is Resource.Error -> Toast.makeText(context, "Error has occured", Toast.LENGTH_LONG)
+                is Resource.Error -> Toast.makeText(context, getString(R.string.error), Toast.LENGTH_LONG)
                     .show()
             }
         })
 
         giphyViewModel.gifLoadingStateLiveData.observe(viewLifecycleOwner, {
-            onMovieLoadingStateChanged(it)
+            mainActivity.onMovieLoadingStateChanged(binding.loadingIndicator, it)
         })
 
         connectivityLiveData.observe(viewLifecycleOwner, { isAvailable ->
@@ -151,15 +148,6 @@ class FirstFragment : Fragment() {
                 }
             }
         })
-    }
-
-    private fun onMovieLoadingStateChanged(state: GifLoadingState) {
-        when (state) {
-            LOADING -> binding.loadingIndicator.visibility = View.VISIBLE
-            ERROR -> binding.loadingIndicator.visibility = View.GONE
-            LOADED -> binding.loadingIndicator.visibility = View.GONE
-        }
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

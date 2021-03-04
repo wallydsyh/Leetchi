@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.leetchi_wallyd.model.GifLoadingState
 import com.example.leetchi_wallyd.model.GiphyResponse
 import com.example.leetchi_wallyd.repository.GiphyRepository
-import com.example.leetchi_wallyd.util.Resource
+import com.example.leetchi_wallyd.utilities.Resource
 import kotlinx.coroutines.launch
 
 open class GiphyViewModel(private val repository: GiphyRepository) : ViewModel() {

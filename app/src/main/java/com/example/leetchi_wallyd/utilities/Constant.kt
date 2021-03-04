@@ -1,4 +1,4 @@
-package com.example.leetchi_wallyd.util
+package com.example.leetchi_wallyd.utilities
 
 object Constant {
     const val BASE_URL = "https://api.giphy.com/v1/gifs/"
